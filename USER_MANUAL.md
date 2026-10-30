@@ -92,6 +92,7 @@ Agentix commands are short, memorable, and support single-letter aliases:
 | **Run Parallel Workers** | `agx run-parallel -b "..." -f "..."` | `agx run -b "..." -f "..."` | Launches Backend and Frontend engineers simultaneously in their isolated worktrees. |
 | **Review Worker PR Diffs** | `agx review` | `agx diff` | Shows exact git diffs of `agent/backend` and `agent/frontend` against `main`. |
 | **Run Automated Tests** | `agx test -f <filter>` | `agx t -f <filter>` | Executes PHPUnit/test suite with optional filter. |
+| **Orchestrator Self-Test** | gx self-test | gx test --self | Executes full 24-test hermetic test suite (Unit, Worktrees, Pipeline Simulation & Visual QA). |
 | **Run Playwright Visual QA** | `agx visual-qa -u <URL>` | `agx vqa -u <URL>` | Launches Playwright Chromium and captures Mobile (375px), Tablet (768px), and Desktop (1440px) screenshots. |
 | **Integrate & Merge** | `agx integrate -f <filter>` | `agx merge -f <filter>` | Merges verified worker branches into `main` after test gate verification. |
 | **Push to GitHub** | `agx push -m "<commit message>"` | `agx p -m "<msg>"` | Formulates Conventional Commit and pushes to `origin main`. |

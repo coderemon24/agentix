@@ -245,8 +245,15 @@ def sync_worktrees():
     print("[AGENTIX] Synchronization complete.\n")
 
 
-def run_tests(filter_pattern=None):
-    """Run automated test suite."""
+def run_tests(filter_pattern=None, self_test=False):
+    """Run automated test suite or self-test orchestrator suite."""
+    if self_test:
+        test_runner = BASE_DIR / "tests" / "run_all_tests.py"
+        cmd = f'python "{test_runner}"'
+        print(f"[AGENTIX] Executing orchestrator self-test suite: {cmd}")
+        res = run_cmd(cmd, cwd=BASE_DIR, capture=False)
+        return res.returncode
+
     filter_arg = f"--filter={filter_pattern}" if filter_pattern else ""
     cmd = f"php artisan test {filter_arg}"
     print(f"[AGENTIX] Executing test suite: {cmd}")
@@ -360,6 +367,112 @@ def push_to_github(commit_message: str):
     else:
         print(f"  [FAIL] Push failed:\n{p_res.stderr or p_res.stdout}")
         return False
+
+
+EXPORT_EXCLUDE_NAMES = {
+    ".git", ".github", ".agents", ".agentix", ".cursor",
+    ".cursorrules", ".windsurfrules", ".orchestrator.json",
+    "agx", "agx.cmd", "agentix", "agentix.cmd",
+    "AGENTS.md", "USER_MANUAL.md", "CLAUDE.md", "CONVENTIONS.md",
+    "UI-Mandatory.md", "ui-refactor.md", "gitcommit.md",
+    "install.ps1", "install.sh", ".deployignore", ".gitattributes",
+    "tests", "node_modules", "dist", "__pycache__", ".DS_Store", "Thumbs.db"
+}
+
+EXPORT_EXCLUDE_REL_PATHS = {
+    "scripts/agx.py",
+    "scripts/orchestrator.py",
+    "bin/agx.js",
+}
+
+
+def export_project(output_path: str = "", format_type: str = "zip"):
+    """
+    Export a clean production-ready package with ZERO orchestration files.
+    Strips all AI agent files, worktrees, internal tests, scripts, and dev markdown.
+    """
+    import zipfile
+    from datetime import datetime
+    import shutil
+
+    print("=" * 70)
+    print(f"  Agentix: Exporting Clean Production Artifact for {PROJECT_NAME}")
+    print("=" * 70)
+
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    clean_name = PROJECT_NAME.lower().replace(" ", "-")
+
+    dist_dir = BASE_DIR / "dist"
+    dist_dir.mkdir(parents=True, exist_ok=True)
+
+    if not output_path:
+        if format_type == "zip":
+            target_path = dist_dir / f"{clean_name}-production-{timestamp}.zip"
+        else:
+            target_path = dist_dir / f"{clean_name}-production-{timestamp}"
+    else:
+        target_path = Path(output_path).resolve()
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Collect files
+    files_to_pack = []
+    for root, dirs, files in os.walk(BASE_DIR):
+        root_path = Path(root)
+        try:
+            rel_root = root_path.relative_to(BASE_DIR)
+        except ValueError:
+            continue
+
+        # Prune excluded directories
+        dirs[:] = [
+            d for d in dirs
+            if d not in EXPORT_EXCLUDE_NAMES
+            and not d.endswith("-lead")
+            and not d.endswith("-backend")
+            and not d.endswith("-frontend")
+        ]
+
+        # Skip if root itself is inside excluded name
+        parts = rel_root.parts
+        if any(p in EXPORT_EXCLUDE_NAMES for p in parts):
+            continue
+
+        for f in files:
+            if f in EXPORT_EXCLUDE_NAMES or f.endswith(".pyc"):
+                continue
+            file_path = root_path / f
+            rel_file = file_path.relative_to(BASE_DIR).as_posix()
+            if rel_file in EXPORT_EXCLUDE_REL_PATHS:
+                continue
+            files_to_pack.append((file_path, rel_file))
+
+    print(f"  -> Collected {len(files_to_pack)} clean production files.")
+    print(f"  -> Stripped all AI agent files, worktrees, tests, and CLI runners.")
+
+    if format_type == "zip":
+        with zipfile.ZipFile(target_path, "w", zipfile.ZIP_DEFLATED) as zf:
+            for src_path, rel_dest in files_to_pack:
+                zf.write(src_path, rel_dest)
+        total_size_kb = target_path.stat().st_size / 1024
+        print(f"  [OK] Production archive created: {target_path}")
+        print(f"       Archive size: {total_size_kb:.2f} KB ({len(files_to_pack)} files)")
+    else:
+        if target_path.exists():
+            shutil.rmtree(target_path)
+        target_path.mkdir(parents=True, exist_ok=True)
+        for src_path, rel_dest in files_to_pack:
+            dest_file = target_path / rel_dest
+            dest_file.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src_path, dest_file)
+        print(f"  [OK] Clean production directory created: {target_path}")
+        print(f"       Total files: {len(files_to_pack)}")
+
+    print("=" * 70)
+    print("  [SUCCESS] 0 Agent/Orchestration files present in package. Ready to deploy!")
+    print("=" * 70)
+    return str(target_path), len(files_to_pack)
+
+
 
 
 def enrich_backend_prompt(raw_prompt: str, change_name: str = "") -> str:
@@ -520,6 +633,11 @@ def normalize_argv(argv):
         "p": "push",
         "auto": "pipeline",
         "d": "dispatch",
+        "self-test": "self-test",
+        "selftest": "self-test",
+        "export": "export",
+        "bundle": "export",
+        "pack": "export",
     }
     
     cmd = argv[1].lower()
@@ -559,9 +677,20 @@ async def main_async():
     # Review (aliases: diff)
     subparsers.add_parser("review", help="Inspect git diff across agent branches (alias: diff)")
     
+    # Self-test
+    subparsers.add_parser("self-test", help="Run comprehensive automated test suite for Agentix Orchestrator")
+
+    # Export / Bundle (aliases: bundle, pack)
+    export_p = subparsers.add_parser("export", help="Export clean production package stripping all agent & orchestration files (alias: bundle)")
+    export_p.add_argument("-o", "--output", default="", help="Output zip or directory path")
+    export_p.add_argument("--dir", action="store_true", help="Export as directory instead of zip archive")
+
+    # Self-test
+
     # Test (aliases: t)
     test_p = subparsers.add_parser("test", help="Run automated test suite (alias: t)")
     test_p.add_argument("-f", "--filter", default="", help="Filter test case or class name")
+    test_p.add_argument("--self", action="store_true", help="Run Agentix self-test suite instead of target project tests")
 
     # Visual QA (aliases: vqa)
     vqa_p = subparsers.add_parser("visual-qa", help="Run Playwright multi-viewport visual QA screenshot capture (alias: vqa)")
@@ -633,8 +762,15 @@ async def main_async():
     elif args.action == "review":
         review_diffs()
         
+    elif args.action == "self-test":
+        run_tests(self_test=True)
+
+    elif args.action == "export":
+        fmt = "dir" if args.dir else "zip"
+        export_project(output_path=args.output, format_type=fmt)
+
     elif args.action == "test":
-        run_tests(args.filter)
+        run_tests(args.filter, self_test=args.self)
 
     elif args.action == "visual-qa":
         run_visual_qa(url=args.url, file_path=args.file, output_dir=args.output)

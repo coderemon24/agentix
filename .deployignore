@@ -1,0 +1,58 @@
+# ==============================================================================
+# Agentix (agx) — Production Deployment Exclude List (.deployignore)
+# ==============================================================================
+# Use this ignore list with rsync, scp, FTP, or CI/CD deployment scripts:
+#   rsync -avz --exclude-from='.deployignore' ./ user@server:/var/www/html/
+# ==============================================================================
+
+# Version Control & Worktrees
+.git/
+.gitignore
+.gitattributes
+*-lead/
+*-backend/
+*-frontend/
+
+# AI Agents, Rules & Guidelines
+.agents/
+.agentix/
+.cursor/
+.cursorrules
+.windsurfrules
+.orchestrator.json
+AGENTS.md
+USER_MANUAL.md
+CLAUDE.md
+CONVENTIONS.md
+UI-Mandatory.md
+ui-refactor.md
+gitcommit.md
+
+# Agentix Orchestration Scripts & CLIs
+scripts/agx.py
+scripts/orchestrator.py
+bin/agx.js
+agx
+agx.cmd
+agentix
+agentix.cmd
+install.ps1
+install.sh
+
+# Testing & QA Harness
+tests/
+tests/unit/
+tests/integration/
+tests/visual-qa/
+
+# CI / CD & Deployment Configs
+.github/
+.deployignore
+
+# Node & Python Environment artifacts
+node_modules/
+__pycache__/
+*.pyc
+.env
+.env.local
+

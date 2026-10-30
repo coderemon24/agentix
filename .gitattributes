@@ -1,0 +1,46 @@
+# ==============================================================================
+# Agentix (agx) — Git Attributes & Production Export Exclusions
+# ==============================================================================
+# When running `git archive` or generating production release bundles, Git
+# automatically strips all development-time AI orchestration tooling, agent
+# rules, worktrees, and test harnesses.
+#
+# Usage:
+#   git archive -o release-clean.zip HEAD
+# ==============================================================================
+
+# AI Agents & Framework Specifications
+.agents/                export-ignore
+.agentix/               export-ignore
+.cursor/                export-ignore
+.cursorrules            export-ignore
+.windsurfrules          export-ignore
+.orchestrator.json      export-ignore
+AGENTS.md               export-ignore
+USER_MANUAL.md          export-ignore
+CLAUDE.md               export-ignore
+CONVENTIONS.md          export-ignore
+UI-Mandatory.md         export-ignore
+ui-refactor.md          export-ignore
+gitcommit.md            export-ignore
+
+# Agentix Orchestrator Engine & CLI Runners
+scripts/agx.py          export-ignore
+scripts/orchestrator.py export-ignore
+bin/agx.js              export-ignore
+agx                     export-ignore
+agx.cmd                 export-ignore
+agentix                 export-ignore
+agentix.cmd             export-ignore
+install.ps1             export-ignore
+install.sh              export-ignore
+
+# Test Suites & Visual QA Harness
+tests/                  export-ignore
+
+# CI & GitHub Workflows
+.github/                export-ignore
+.gitattributes          export-ignore
+.gitignore              export-ignore
+.deployignore           export-ignore
+

@@ -11,7 +11,10 @@
   "scripts": {
     "init": "node ./bin/agx.js init",
     "status": "node ./bin/agx.js status",
-    "vqa": "node ./bin/agx.js vqa"
+    "vqa": "node ./bin/agx.js vqa",
+    "test": "node ./bin/agx.js self-test",
+    "test:unit": "python -m unittest discover -s tests/unit -v",
+    "test:integration": "python -m unittest discover -s tests/integration -v"
   },
   "repository": {
     "type": "git",
@@ -40,4 +43,3 @@
     "playwright": "^1.40.0"
   }
 }
-
