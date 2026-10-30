@@ -46,3 +46,4 @@ echo "======================================================================"
 echo "  [SUCCESS] Agentix (agx) installed successfully!"
 echo "  Run './agx st' to check team status."
 echo "======================================================================"
+

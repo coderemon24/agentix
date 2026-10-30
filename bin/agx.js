@@ -35,3 +35,4 @@ child.on('error', (err) => {
 child.on('close', (code) => {
     process.exit(code ?? 0);
 });
+

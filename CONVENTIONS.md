@@ -20,3 +20,4 @@
 - Gate 4: Wireframes (`WIREFRAMES.md` with 60/40 asymmetry)
 - Gate 5: Parallel Worker PRs
 - Gate 6: Playwright Visual QA (`DESIGN_REVIEW.md`, `VISUAL_QA_REPORT.md`)
+

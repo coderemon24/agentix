@@ -147,3 +147,4 @@ Agentix includes native configuration files for all popular AI tools:
 ## 📄 License & Community
 
 Created by [coderemon24](https://github.com/coderemon24). Released under the [MIT License](LICENSE).
+

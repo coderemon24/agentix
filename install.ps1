@@ -48,6 +48,14 @@ try {
     Remove-Item -Force $tempZip -ErrorAction SilentlyContinue
     Remove-Item -Recurse -Force $tempExtract -ErrorAction SilentlyContinue
 
+    # Register Global CLI in npm bin if available
+    $npmDir = "$env:APPDATA\npm"
+    if (Test-Path $npmDir) {
+        Copy-Item -Path "$PWD\agx.cmd" -Destination "$npmDir\agx.cmd" -Force -ErrorAction SilentlyContinue
+        Copy-Item -Path "$PWD\agentix.cmd" -Destination "$npmDir\agentix.cmd" -Force -ErrorAction SilentlyContinue
+        Write-Host "--> Registered global CLI command 'agx' in: $npmDir" -ForegroundColor Cyan
+    }
+
     Write-Host "--> Initializing Git branches and worktrees..." -ForegroundColor Yellow
     python scripts\agx.py init
 
@@ -60,3 +68,4 @@ catch {
     Write-Host "[ERROR] Installation failed: $_" -ForegroundColor Red
     exit 1
 }
+

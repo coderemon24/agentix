@@ -39,3 +39,4 @@ Strictly prohibit generic AI clichés:
 - No repetitive bento grids lacking functional hierarchy.
 - No placeholder buttons or dead links.
 - No mobile horizontal scrolling at 375px.
+

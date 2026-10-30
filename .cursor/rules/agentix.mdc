@@ -14,3 +14,4 @@ alwaysApply: true
   - Root workspace is for `main`, design system documentation, and visual QA
 - **Visual QA**: Multi-viewport Playwright verification (`agx vqa -u <url>`)
 - **Gates**: Discovery (Gate 1) -> Visual Direction (Gate 2) -> Design Tokens (Gate 3) -> Wireframes (Gate 4) -> Parallel PRs (Gate 5) -> Visual QA (Gate 6)
+
