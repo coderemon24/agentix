@@ -37,6 +37,15 @@ done
 
 chmod +x agx agentix scripts/agx.py
 
+# Register global CLI command if ~/.local/bin exists or /usr/local/bin writable
+if [ -d "$HOME/.local/bin" ]; then
+  cp "$PWD/agx" "$HOME/.local/bin/agx" 2>/dev/null || true
+  cp "$PWD/agentix" "$HOME/.local/bin/agentix" 2>/dev/null || true
+elif [ -w "/usr/local/bin" ]; then
+  cp "$PWD/agx" "/usr/local/bin/agx" 2>/dev/null || true
+  cp "$PWD/agentix" "/usr/local/bin/agentix" 2>/dev/null || true
+fi
+
 rm -rf "$TEMP_DIR"
 
 echo "--> Initializing Git branches and worktrees..."
