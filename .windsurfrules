@@ -1,0 +1,19 @@
+# Windsurf Rules for Agentix (agx) Workspace
+
+1. **Architecture & Worktrees**:
+   - Work across dedicated Git worktrees for parallel execution.
+   - Backend logic belongs in `agent/backend` (`../<project>-backend`).
+   - Frontend UI belongs in `agent/frontend` (`../<project>-frontend`).
+   - Integration and review belong in `main`.
+
+2. **CLI Commands**:
+   - `agx st`: Status of worktrees.
+   - `agx run -b "..." -f "..."`: Parallel subagents.
+   - `agx vqa -u <url>`: Playwright visual audit.
+   - `agx merge -f <filter>`: Merge verified branches.
+   - `agx p -m "<msg>"`: Push to GitHub.
+
+3. **Design & Anti-Slop**:
+   - Strict 4-tier typography scale.
+   - Asymmetric 60/40 layouts with floating anchor badges.
+   - No generic purple/cyan gradients, floating glass cards, or fake sparkle badges.

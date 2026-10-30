@@ -1,0 +1,33 @@
+# Cursor Rules for Agentix (agx) Workspace
+
+You are assisting in a project using **Agentix (agx)** multi-agent orchestration.
+
+## 1. Operating Environment & Worktrees
+This repository uses isolated Git worktrees to separate backend, frontend, and lead integration work:
+- Backend files (`app/`, `database/`, `routes/`, `tests/`) belong exclusively to `agent/backend` in `../<project>-backend`.
+- Frontend files (`resources/views/`, `public/assets/`, UI components) belong exclusively to `agent/frontend` in `../<project>-frontend`.
+- Design documentation, tokens, and visual QA belong to root (`main`).
+
+## 2. CLI Usage (`agx`)
+Instead of manual git worktree manipulation, instruct or execute via `agx`:
+- `agx st`: Check team and worktree status.
+- `agx sync`: Sync worktrees with `main`.
+- `agx run -b "<backend>" -f "<frontend>"`: Concurrent worker dispatch.
+- `agx diff`: Review PR diffs.
+- `agx t -f <filter>`: Run automated tests.
+- `agx vqa -u <url>`: Playwright multi-viewport browser capture (Mobile 375px, Tablet 768px, Desktop 1440px).
+- `agx merge -f <filter>`: Integrate reviewed branches into `main`.
+- `agx p -m "<msg>"`: Commit and push.
+
+## 3. UI/UX Refactoring Standards
+Whenever writing frontend code or reviewing interfaces:
+- Enforce the 7 Master UI Recipes (`ui-refactor.md`):
+  1. Sharpen Message: Exactly ONE focal accent span.
+  2. Break Symmetry: 60/40 or 65/35 asymmetric grid with floating anchor badge.
+  3. Build Argument: Coherent section rhythm with kickers and hairline dividers.
+  4. Pick Winner: Elevate flagship tier (60% weight) over uniform cards.
+  5. Scale Type: 4-tier scale (Display, Title, Body, Kicker).
+  6. Give Color Meaning: Disciplined semantic palette (60-30-10 rule).
+  7. Add Signature: Section kickers with pulsing status dots.
+- Anti-AI-Slop: Ban purple-cyan gradients, floating glass cards, sparkle emojis, and uniform bento grids.
+- UI-Mandatory: Zero dead buttons or fake `#` links; mobile responsive down to 375px without horizontal scroll.

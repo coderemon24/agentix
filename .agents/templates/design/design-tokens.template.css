@@ -1,0 +1,81 @@
+/**
+ * EduCore Design Tokens CSS
+ * Production-ready CSS custom properties for direct application across Blade templates.
+ */
+
+:root {
+  /* ==========================================================================
+     Brand & Semantic Color Tokens
+     ========================================================================== */
+  --color-brand-primary: #005030;
+  --color-brand-dark: #004027;
+  --color-brand-light: #e6f0ec;
+  
+  --color-action-cta: #f59e0b;
+  --color-action-cta-hover: #d97706;
+  --color-action-cta-text: #0f172a;
+  
+  --color-notice-sky: #0284c7;
+  --color-notice-sky-bg: #f0f9ff;
+  
+  --color-success: #059669;
+  --color-success-bg: #ecfdf5;
+  
+  --color-danger: #e11d48;
+  --color-danger-bg: #fff1f2;
+
+  /* ==========================================================================
+     Neutrals, Surfaces & Borders
+     ========================================================================== */
+  --surface-canvas: #ffffff;
+  --surface-muted: #f8fafc;
+  --surface-card: #ffffff;
+  --border-default: #e2e8f0;
+  --border-subtle: #cbd5e1;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  /* ==========================================================================
+     Typography Scales
+     ========================================================================== */
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-bengali: 'Noto Sans Bengali', sans-serif;
+
+  --text-display-size: 2.5rem;
+  --text-display-lh: 1.2;
+  --text-title-size: 1.25rem;
+  --text-title-lh: 1.35;
+  --text-body-size: 0.9375rem;
+  --text-body-lh: 1.65;
+  --text-kicker-size: 0.75rem;
+  --text-kicker-lh: 1.4;
+
+  /* ==========================================================================
+     Spacing Rhythm
+     ========================================================================== */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+
+  /* ==========================================================================
+     Radii & Shadows
+     ========================================================================== */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+}
+

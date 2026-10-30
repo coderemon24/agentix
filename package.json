@@ -1,0 +1,42 @@
+{
+  "name": "agentix",
+  "version": "1.0.0",
+  "description": "Universal Multi-Agent Orchestration & Staged AI Design System Architecture across Isolated Git Worktrees",
+  "type": "module",
+  "main": "bin/agx.js",
+  "bin": {
+    "agx": "./bin/agx.js",
+    "agentix": "./bin/agx.js"
+  },
+  "scripts": {
+    "init": "node ./bin/agx.js init",
+    "status": "node ./bin/agx.js status",
+    "vqa": "node ./bin/agx.js vqa"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coderemon24/agentix.git"
+  },
+  "keywords": [
+    "multi-agent",
+    "orchestrator",
+    "ai-agents",
+    "git-worktrees",
+    "design-system",
+    "visual-qa",
+    "playwright",
+    "openspec",
+    "claude-code",
+    "cursor"
+  ],
+  "author": "coderemon24",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coderemon24/agentix/issues"
+  },
+  "homepage": "https://github.com/coderemon24/agentix#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "playwright": "^1.40.0"
+  }
+}
